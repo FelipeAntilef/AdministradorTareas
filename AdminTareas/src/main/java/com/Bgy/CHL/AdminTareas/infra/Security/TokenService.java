@@ -34,33 +34,9 @@ public class TokenService {
         }
     }
 
-    public String getSubject(String token){
-        DecodedJWT verifier= null;
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(apiSecret);
-            verifier = JWT.require(algorithm)
-                    .withIssuer("Bgy")
-                    .build().verify(token)
-            ;
-            verifier.getSubject();
-
-        } catch (JWTVerificationException exception){
-            // Invalid signature/claims
-        }
-
-        if(verifier.getSubject()==null){
-            throw new RuntimeException("verifier invalid");
-        }
-        return verifier.getSubject();
-
-    }
-
-
-
-
     private Instant generarFechaExpiracion( ){
 
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-05:00"));
+        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
 }
 
