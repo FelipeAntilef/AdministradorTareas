@@ -34,6 +34,23 @@ public class TokenService {
         }
     }
 
+    public String getSubject(String token) {
+    if (token ==null){
+        throw new RuntimeException("token vacio");
+    }
+    DecodedJWT verifier = null;
+    try {
+        Algorithm algorithm = Algorithm.HMAC256(apiSecret);
+        verifier=JWT.require(algorithm).withIssuer("Bgy").build().verify(token);
+        verifier.getSubject();
+    }catch (JWTVerificationException exception){
+        System.out.println(exception.toString());
+    }
+    if(verifier.getSubject() ==null){
+        throw new RuntimeException("verifier invalido");    }
+    return verifier.getSubject();
+    }
+
     private Instant generarFechaExpiracion( ){
 
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
